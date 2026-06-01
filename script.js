@@ -5,10 +5,10 @@
     const cartBody = document.getElementById("cart-body");
     const totalEl = document.getElementById("total");
 
-    let items = [];
+    const items = [];
 
     function isValidItem(name, price, qty) {
-      return name.trim() !== "" && !isNaN(price) && Number(price) >= 0 && Number.isInteger(qty) && qty > 0;
+      return name.trim() !== "" && !isNaN(price) && price >= 0 && Number.isInteger(qty) && qty > 0;
     }
 
     function renderTotal() {
@@ -17,28 +17,28 @@
     }
 
     addButton.addEventListener("click", () => {
-      const itemName = itemInput.value.trim();
-      const itemPrice = Number(priceInput.value);
-      const itemQty = Number(qtyInput.value);
+      const name = itemInput.value.trim();
+      const price = Number(priceInput.value);
+      const qty = Number(qtyInput.value);
 
-      if (!isValidItem(itemName, itemPrice, itemQty)) return;
+      if (!isValidItem(name, price, qty)) return;
 
-      items.push({ name: itemName, price: itemPrice, qty: itemQty });
+      items.push({ name, price, qty });
 
       const row = document.createElement("tr");
       row.setAttribute("role", "row");
 
       const itemCell = document.createElement("td");
       itemCell.setAttribute("role", "cell");
-      itemCell.textContent = itemName;
+      itemCell.textContent = name;
 
       const priceCell = document.createElement("td");
       priceCell.setAttribute("role", "cell");
-      priceCell.textContent = itemPrice;
+      priceCell.textContent = price;
 
       const qtyCell = document.createElement("td");
       qtyCell.setAttribute("role", "cell");
-      qtyCell.textContent = itemQty;
+      qtyCell.textContent = qty;
 
       row.appendChild(itemCell);
       row.appendChild(priceCell);

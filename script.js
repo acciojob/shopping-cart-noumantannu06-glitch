@@ -1,21 +1,29 @@
-const itemInput = document.getElementById("item-name-input");
+ const itemInput = document.getElementById("item-name-input");
     const priceInput = document.getElementById("item-price-input");
+    const qtyInput = document.getElementById("item-qty-input-1");
     const addButton = document.getElementById("add");
     const cartBody = document.getElementById("cart-body");
     const totalEl = document.getElementById("total");
 
-    let grandTotal = 0;
-    let count = 0;
+    let items = [];
 
-    function isValidItem(name, price) {
-      return name.trim() !== "" && !isNaN(price) && Number(price) >= 0;
+    function isValidItem(name, price, qty) {
+      return name.trim() !== "" && !isNaN(price) && Number(price) >= 0 && Number.isInteger(qty) && qty > 0;
+    }
+
+    function renderTotal() {
+      const total = items.reduce((sum, item) => sum + item.price * item.qty, 0);
+      totalEl.textContent = total;
     }
 
     addButton.addEventListener("click", () => {
       const itemName = itemInput.value.trim();
       const itemPrice = Number(priceInput.value);
+      const itemQty = Number(qtyInput.value);
 
-      if (!isValidItem(itemName, itemPrice)) return;
+      if (!isValidItem(itemName, itemPrice, itemQty)) return;
+
+      items.push({ name: itemName, price: itemPrice, qty: itemQty });
 
       const row = document.createElement("tr");
       row.setAttribute("role", "row");
@@ -30,22 +38,7 @@ const itemInput = document.getElementById("item-name-input");
 
       const qtyCell = document.createElement("td");
       qtyCell.setAttribute("role", "cell");
-
-      const qtyInput = document.createElement("input");
-      qtyInput.type = "number";
-      qtyInput.min = "1";
-      qtyInput.value = "1";
-      qtyInput.id = `item-qty-input-${++count}`;
-
-      qtyInput.addEventListener("input", () => {
-        const qty = Number(qtyInput.value);
-        if (!Number.isFinite(qty) || qty < 1) {
-          qtyInput.value = "1";
-        }
-        recalculateTotal();
-      });
-
-      qtyCell.appendChild(qtyInput);
+      qtyCell.textContent = itemQty;
 
       row.appendChild(itemCell);
       row.appendChild(priceCell);
@@ -53,26 +46,9 @@ const itemInput = document.getElementById("item-name-input");
 
       cartBody.insertBefore(row, document.getElementById("total-row"));
 
-      grandTotal += itemPrice;
-      totalEl.textContent = grandTotal;
+      renderTotal();
 
       itemInput.value = "";
       priceInput.value = "";
+      qtyInput.value = "1";
     });
-
-    function recalculateTotal() {
-      let total = 0;
-      const rows = Array.from(cartBody.querySelectorAll("tr")).filter(
-        (tr) => tr.id !== "total-row"
-      );
-
-      rows.forEach((row) => {
-        const price = Number(row.children[1].textContent);
-        const qtyInput = row.querySelector('input[type="number"]');
-        const qty = Number(qtyInput.value) || 1;
-        total += price * qty;
-      });
-
-      totalEl.textContent = total;
-      grandTotal = total;
-    }

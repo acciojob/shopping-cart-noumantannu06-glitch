@@ -16,7 +16,7 @@
       totalEl.textContent = total;
     }
 
-    addButton.addEventListener("click", () => {
+    function addToCart() {
       const name = itemInput.value.trim();
       const price = Number(priceInput.value);
       const qty = Number(qtyInput.value);
@@ -28,9 +28,9 @@
       const row = document.createElement("tr");
       row.setAttribute("role", "row");
 
-      const itemCell = document.createElement("td");
-      itemCell.setAttribute("role", "cell");
-      itemCell.textContent = name;
+      const nameCell = document.createElement("td");
+      nameCell.setAttribute("role", "cell");
+      nameCell.textContent = name;
 
       const priceCell = document.createElement("td");
       priceCell.setAttribute("role", "cell");
@@ -40,7 +40,7 @@
       qtyCell.setAttribute("role", "cell");
       qtyCell.textContent = qty;
 
-      row.appendChild(itemCell);
+      row.appendChild(nameCell);
       row.appendChild(priceCell);
       row.appendChild(qtyCell);
 
@@ -51,4 +51,10 @@
       itemInput.value = "";
       priceInput.value = "";
       qtyInput.value = "1";
+    }
+
+    addButton.addEventListener("click", addToCart);
+    qtyInput.addEventListener("input", () => {
+      const v = Number(qtyInput.value);
+      if (!Number.isFinite(v) || v < 1) qtyInput.value = "1";
     });

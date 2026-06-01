@@ -8,6 +8,27 @@
 
 <body>
 	<!-- the entire body must be written by student -->
+	 <label for="item-name-input">Item Name</label>
+  <input id="item-name-input" type="text" aria-label="Item name" />
+
+  <label for="item-price-input">Item Price</label>
+  <input id="item-price-input" type="number" min="0" step="any" aria-label="Item price" />
+
+  <button id="add">Add</button>
+
+  <table role="table" aria-label="Shopping cart table">
+    <thead>
+      <tr>
+        <th id="item">Item</th>
+        <th id="price">Price</th>
+      </tr>
+    </thead>
+    <tbody id="cart-body" role="rowgroup">
+      <tr role="row">
+        <td role="cell" colspan="2">Grand Total: <span id="total">0</span></td>
+      </tr>
+    </tbody>
+  </table>
     <script type="text/javascript" src="./script.js">
 </script>
 

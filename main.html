@@ -14,18 +14,19 @@
   <label for="item-price-input">Item Price</label>
   <input id="item-price-input" type="number" min="0" step="any" aria-label="Item price" />
 
-  <button id="add">Add</button>
+  <button id="add" type="button">Add</button>
 
   <table role="table" aria-label="Shopping cart table">
     <thead>
-      <tr>
-        <th id="item">Item</th>
-        <th id="price">Price</th>
+      <tr role="row">
+        <th id="item" role="columnheader">Item</th>
+        <th id="price" role="columnheader">Price</th>
+        <th role="columnheader">Qty</th>
       </tr>
     </thead>
     <tbody id="cart-body" role="rowgroup">
-      <tr role="row">
-        <td role="cell" colspan="2">Grand Total: <span id="total">0</span></td>
+      <tr id="total-row" role="row">
+        <td role="cell" colspan="3">Grand Total: <span id="total">0</span></td>
       </tr>
     </tbody>
   </table>
